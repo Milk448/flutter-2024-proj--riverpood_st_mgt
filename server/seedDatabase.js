@@ -70,9 +70,9 @@ async function seedDatabase() {
       },
       //science
       {
-        question: "What is the largest planet in our solar system?",
-        options: ["Mars", "Jupiter", "Saturn", "Earth"],
-        correctAnswer: 1,
+        question: "What is the smallest unit of life?",
+        options: ["Organ", "Tissue", "Cell", "Molecule"],
+        correctAnswer: 2,
         category: "Science",
       },
       {
@@ -133,31 +133,80 @@ async function seedDatabase() {
       },
       {
         question:
-          "If the theory of relativity is correct, what happens to the mass of an object as its velocity approaches the speed of light?",
-        correctAnswer: 2,
-        category: "Science",
-      },
-      {
-        question:
-          "In quantum mechanics, what is the significance of the collapse of the wave function?",
-        correctAnswer: 0,
-        category: "Science",
-      },
-      {
-        question:
-          "Some antibiotic-resistant bacteria are emerging as a global health threat. How does horizontal gene transfer contribute to this phenomenon?",
+          "The theory of Heliocentrism, placing the Sun at the center of the solar system, was championed by which scientist during the Scientific Revolution?",
+        options: [
+          "Isaac Newton",
+          "Galileo Galilei",
+          "Johannes Kepler",
+          "René Descartes",
+        ],
         correctAnswer: 1,
-        category: "Science",
+        category: "History",
       },
       {
         question:
-          "Fusion power offers the potential for clean energy generation. What is the biggest technical challenge in achieving a sustained fusion reaction?",
-        correctAnswer: 3,
-        category: "Science",
+          "The Gupta Empire, known for its advancements in mathematics, astronomy, and literature, flourished in which region of the world?",
+        options: [
+          "Mesopotamia",
+          "Ancient Egypt",
+          "Indus Valley",
+          "Indian Subcontinent",
+        ],
+        correctAnswer: 4,
+        category: "History",
       },
       {
         question:
-          "Dark matter is believed to make up most of the matter in the universe. What evidence suggests its existence despite being undetectable directly?",
+          "The storming of the Bastille prison in 1789 is considered a pivotal event in which revolution?",
+        options: [
+          "The American Revolution",
+          "The French Revolution",
+          "The Haitian Revolution",
+          "The Russian Revolution",
+        ],
+        correctAnswer: 1,
+        category: "History",
+      },
+      {
+        question:
+          "The doctrine of Mandate System, established after World War I, aimed to oversee the colonies of defeated empires by which international organization?",
+        options: [
+          "The United Nations",
+          "The League of Nations",
+          "The North Atlantic Treaty Organization (NATO)",
+          "The World Trade Organization (WTO)",
+        ],
+        correctAnswer: 1,
+        category: "History",
+      },
+      {
+        question:
+          "Which event is considered the end of the Middle Ages in Western Europe?",
+        options: [
+          "The fall of the Roman Empire",
+          "The Black Death",
+          "The Renaissance",
+          "The printing press invention",
+        ],
+        correctAnswer: 1,
+        category: "History",
+      },
+      {
+        question: "What is the fuel used in nuclear power plants?",
+        options: [
+          "Fossil fuels",
+          "Solar energy",
+          "Wind power",
+          "Fissionable isotopes",
+        ],
+        correctAnswer: 4,
+        category: "Science",
+      },
+
+      {
+        question:
+          "What force is responsible for keeping the Earth in its orbit around the Sun?",
+        options: ["Friction", "Electromagnetism", "Gravity", "Nuclear force"],
         correctAnswer: 2,
         category: "Science",
       },

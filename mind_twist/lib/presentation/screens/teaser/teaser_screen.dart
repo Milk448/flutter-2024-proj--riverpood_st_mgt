@@ -50,8 +50,20 @@ class _TeaserScreenState extends State<TeaserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 162, 155, 204),
+      appBar: AppBar(
+        elevation: 5,
+        backgroundColor: const Color.fromARGB(255, 158, 152, 199),
+        leading: IconButton(
+          onPressed: () {
+            context.go('/home');
+          },
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

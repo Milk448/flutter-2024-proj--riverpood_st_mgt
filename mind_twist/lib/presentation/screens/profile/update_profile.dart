@@ -138,7 +138,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         backgroundColor: const Color.fromARGB(255, 158, 152, 199),
         leading: IconButton(
           onPressed: () {
-            context.pop();
+            context.go('/home_screen');
           },
           icon: const Icon(Icons.arrow_back),
           color: Colors.white,

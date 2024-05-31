@@ -178,6 +178,13 @@ class _AdminPageState extends State<AdminPage> {
           'Admin Panel',
           style: TextStyle(color: Colors.white),
         ),
+        leading: IconButton(
+          onPressed: () {
+            context.go('/profile');
+          },
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.white,
+        ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 158, 152, 199),
       ),

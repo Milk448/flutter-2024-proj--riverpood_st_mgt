@@ -137,19 +137,6 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        child: const Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
-      ),
-    );
-  }
-
   Widget _buildSignInBtn() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0),
@@ -260,7 +247,6 @@ class _SignInScreenState extends State<SignInScreen> {
                           height: 30.0,
                         ),
                         _buildPasswordTF(),
-                        _buildForgotPasswordBtn(),
                         _buildSignInBtn(),
                         _buildSignUpBtn(),
                       ],
