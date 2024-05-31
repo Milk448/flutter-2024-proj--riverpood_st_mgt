@@ -12,8 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mind_twist/presentation/widgets/score_display.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mind_twist/presentation/screens/teaser/tease_screen.dart'; // Import TeaseScreen
-// import 'package:mind_twist/core/domain/user/user.dart';
+import 'package:mind_twist/presentation/screens/teaser/tease_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
