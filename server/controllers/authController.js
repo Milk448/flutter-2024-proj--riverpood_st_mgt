@@ -11,10 +11,14 @@ const signup = async (req, res) => {
     }
     const newUser = new User({ username, password });
     await newUser.save();
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h", // Set token expiration time (e.g., 1 hour)
-    });
-    res.status(201).json({ token, userId: newUser._id });
+    const token = jwt.sign(
+      { userId: newUser._id, role: newUser.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.status(201).json({ token, userId: newUser._id, role: newUser.role }); // Send role
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -31,10 +35,14 @@ const signin = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h", // Set token expiration time (e.g., 1 hour)
-    });
-    res.json({ token, userId: user._id });
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.json({ token, userId: user._id, role: user.role }); // Send role
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }

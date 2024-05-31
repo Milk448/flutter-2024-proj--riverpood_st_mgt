@@ -107,6 +107,17 @@ class _AdminPageState extends State<AdminPage> {
 
         if (response.statusCode == 200) {
           _fetchUsers();
+          // Update user role in local storage after successful update
+          // Get the user data for the updated user (you might need to fetch the user data again)
+          final updatedUserData = _users.firstWhere(
+            (user) => user['_id'] == userId,
+            orElse: () => {}, // Handle the case where the user is not found
+          );
+          if (updatedUserData != null) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString(
+                'userRole', updatedUserData['role']); // Update
+          }
         } else {
           final error = jsonDecode(response.body)['message'];
           ScaffoldMessenger.of(context).showSnackBar(

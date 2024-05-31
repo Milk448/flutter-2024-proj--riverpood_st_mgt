@@ -39,10 +39,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
-          // Store token and userId for future requests
+          // Store token, userId, and user role for future requests
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', data['token']);
           await prefs.setString('userId', data['userId']);
+          await prefs.setString('userRole', data['role']); // Store user role
 
           // Navigate to the next screen (e.g., home screen)
           context.go('/frame');
@@ -87,7 +88,8 @@ class _SignInScreenState extends State<SignInScreen> {
               hintStyle: kHintTextStyle,
             ),
             validator: (value) {
-              if (value!.isEmpty) {
+              if (value == null || value.isEmpty) {
+                // Fix: Check for null or empty string
                 return 'Please enter your username';
               }
               return null;
@@ -115,15 +117,14 @@ class _SignInScreenState extends State<SignInScreen> {
               fontFamily: 'OpenSans',
             ),
             decoration: const InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: 'Password',
-              hintStyle: kHintTextStyle,
-            ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14.0),
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                ),
+                hintText: 'Password',
+                hintStyle: kHintTextStyle),
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Please enter your password';

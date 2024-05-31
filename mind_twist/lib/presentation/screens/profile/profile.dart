@@ -12,17 +12,19 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   int _selectedIndex = 3;
   String? username;
+  String? userRole; // Store user role
 
   @override
   void initState() {
     super.initState();
-    _loadUsername();
+    _loadUserData();
   }
 
-  Future<void> _loadUsername() async {
+  Future<void> _loadUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       username = prefs.getString('username');
+      userRole = prefs.getString('userRole'); // Load user role
     });
   }
 
@@ -133,6 +135,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         await SharedPreferences.getInstance();
                     await prefs.remove('token');
                     await prefs.remove('userId');
+                    await prefs.remove('username'); // Remove username
+                    await prefs.remove('userRole'); // Remove user role
                     context.go('/');
                   },
                   style: ElevatedButton.styleFrom(
@@ -161,27 +165,33 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-            onPressed: () {
-              context.go('/admin');
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent.withOpacity(0.0),
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+          // Display Admin Panel button conditionally
+          Visibility(
+            visible:
+                userRole == 'admin', // Show the button if userRole is 'admin'
+            child: ElevatedButton(
+              onPressed: () {
+                context.go('/admin');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent.withOpacity(0.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.circular(30),
+              child: const Text(
+                'Admin Panel',
+                style: TextStyle(color: Colors.white),
               ),
-            ),
-            child: const Text(
-              'Admin Panel',
-              style: TextStyle(color: Colors.white),
             ),
           ),
         ],
