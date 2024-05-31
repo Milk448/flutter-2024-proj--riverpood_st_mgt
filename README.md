@@ -21,10 +21,12 @@ Daily Challenges
 Offer daily challenges featuring a fresh set of brain teasers each day.
 Enable users to compete against themselves to solve as many brain teasers as possible within a specified time limit.
 Provide hints or solutions for users encountering difficulties with specific brain teasers, ensuring a smooth and enjoyable experience.
+
 Team Members
 No.	Names	ID	Section
 1	Abel Begashaw	*ATE/8919/13	01
 2	Natan Amanuel	*ATE/7142/13	02
 3	Naol Kumela	*ATE/3173/13	02
 4	Milko Shuma	UGR/4707/13	02
+
 Notice: *is to indicate that the student's new ID numbers are currently being processed due to admission
