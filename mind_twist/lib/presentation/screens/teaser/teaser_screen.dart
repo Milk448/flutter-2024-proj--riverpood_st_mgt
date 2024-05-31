@@ -1,3 +1,5 @@
+// mind_twist/lib/presentation/screens/teaser/teaser_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,36 +28,16 @@ class _TeaserScreenState extends State<TeaserScreen> {
       final response =
           await http.get(Uri.parse('http://192.168.42.1:3000/api/teasers'));
       if (response.statusCode == 200) {
-        final List<dynamic> teaserData = json.decode(response.body);
+        final List<dynamic> teaserData = jsonDecode(response.body);
 
-        // Assuming we have 5 more categories
+        // Group teasers by category
         setState(() {
-          categoryQuestions = {
-            'General Knowledge': teaserData
-                .where((teaser) => teaser['category'] == 'General Knowledge')
-                .map((teaser) => teaser as Map<String, dynamic>)
-                .toList(),
-            'Science': teaserData
-                .where((teaser) => teaser['category'] == 'Science')
-                .map((teaser) => teaser as Map<String, dynamic>)
-                .toList(),
-            'History': teaserData
-                .where((teaser) => teaser['category'] == 'History')
-                .map((teaser) => teaser as Map<String, dynamic>)
-                .toList(),
-            'Sports': teaserData
-                .where((teaser) => teaser['category'] == 'Sports')
-                .map((teaser) => teaser as Map<String, dynamic>)
-                .toList(),
-            'Entertainment': teaserData
-                .where((teaser) => teaser['category'] == 'Entertainment')
-                .map((teaser) => teaser as Map<String, dynamic>)
-                .toList(),
-            'Geography': teaserData
-                .where((teaser) => teaser['category'] == 'Geography')
-                .map((teaser) => teaser as Map<String, dynamic>)
-                .toList(),
-          };
+          categoryQuestions = teaserData.fold({}, (previousValue, element) {
+            final category = element['category'];
+            previousValue[category] = previousValue[category] ?? [];
+            previousValue[category]!.add(element);
+            return previousValue;
+          });
         });
       } else {
         print('Failed to load teasers');

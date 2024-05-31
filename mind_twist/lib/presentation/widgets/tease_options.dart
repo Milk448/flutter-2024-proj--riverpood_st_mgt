@@ -1,3 +1,5 @@
+// mind_twist/lib/presentation/widgets/tease_options.dart
+
 import 'package:flutter/material.dart';
 
 class Option extends StatelessWidget {

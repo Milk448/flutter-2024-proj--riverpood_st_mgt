@@ -1,3 +1,5 @@
+// mind_twist/lib/presentation/screens/teaser/tease_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:mind_twist/presentation/widgets/score_display.dart';
 import 'package:mind_twist/presentation/widgets/tease_options.dart';
@@ -49,23 +51,33 @@ class _TeaseScreenState extends State<TeaseScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              _questions[_currentQuestionIndex]['question'] as String,
-              style:
-                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
+            // Check if _questions is not empty and _currentQuestionIndex is within bounds
+            if (_questions.isNotEmpty &&
+                _currentQuestionIndex < _questions.length)
+              Text(
+                _questions[_currentQuestionIndex]['question'] as String,
+                style: const TextStyle(
+                    fontSize: 20.0, fontWeight: FontWeight.bold),
+              )
+            else
+              const Text("No more questions in this category"),
             const SizedBox(height: 20.0),
-            ...(_questions[_currentQuestionIndex]['options'] as List<dynamic>)
-                .asMap()
-                .entries
-                .map(
-                  (entry) => Option(
-                    optionText: entry.value as String,
-                    isSelected: _selectedOptionIndex == entry.key,
-                    onPressed: () => _handleOptionSelected(entry.key),
-                  ),
-                )
-                .toList(),
+            // Check if _questions is not empty and _currentQuestionIndex is within bounds
+            if (_questions.isNotEmpty &&
+                _currentQuestionIndex < _questions.length)
+              ...(_questions[_currentQuestionIndex]['options'] as List<dynamic>)
+                  .asMap()
+                  .entries
+                  .map(
+                    (entry) => Option(
+                      optionText: entry.value as String,
+                      isSelected: _selectedOptionIndex == entry.key,
+                      onPressed: () => _handleOptionSelected(entry.key),
+                    ),
+                  )
+                  .toList()
+            else
+              const SizedBox.shrink(), // Or any other placeholder
           ],
         ),
       ),
@@ -77,20 +89,18 @@ class _TeaseScreenState extends State<TeaseScreen> {
       _selectedOptionIndex = optionIndex;
 
       // Correctly handle 'correctAnswer' as int
-      int correctAnswer = _questions[_currentQuestionIndex]['correctAnswer']
-              is int
-          ? _questions[_currentQuestionIndex]['correctAnswer']
-          : int.tryParse(_questions[_currentQuestionIndex]['correctAnswer']) ??
-              -1;
+      int correctAnswer = _questions[_currentQuestionIndex]['correctAnswer'];
 
       if (optionIndex == correctAnswer) {
         _score++;
       }
 
+      // Move to the next question or display the score
       if (_currentQuestionIndex < _questions.length - 1) {
         _currentQuestionIndex++;
-        _selectedOptionIndex = -1;
+        _selectedOptionIndex = -1; // Reset selected option
       } else {
+        // Navigate to ScoreScreen
         context.push(
           '/score_screen',
           extra: {'score': _score, 'totalQuestions': _questions.length},
