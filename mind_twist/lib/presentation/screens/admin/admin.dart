@@ -1,3 +1,4 @@
+// mind_twist\lib\presentation\screens\admin\admin.dart
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,7 +26,7 @@ class _AdminPageState extends State<AdminPage> {
 
   Future<void> _fetchUsers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('jwtToken');
+    String? token = prefs.getString('token');
 
     if (token != null) {
       try {
@@ -38,26 +39,26 @@ class _AdminPageState extends State<AdminPage> {
         );
 
         if (response.statusCode == 200) {
-          final List<dynamic> usersData = jsonDecode(response.body);
+          final data = jsonDecode(response.body) as List<dynamic>;
           setState(() {
-            _users =
-                usersData.map((user) => user as Map<String, dynamic>).toList();
+            _users = data.map((user) => user as Map<String, dynamic>).toList();
           });
         } else {
-          print('Failed to load users');
+          // Handle error
         }
       } catch (error) {
-        print('Error fetching users: $error');
+        // Handle network or other errors
       }
     }
   }
 
   Future<void> _createUser() async {
     if (_formKey.currentState!.validate()) {
-      final newUsername = _newUsernameController.text.trim();
-      final newPassword = _newPasswordController.text.trim();
+      final username = _newUsernameController.text.trim();
+      final password = _newPasswordController.text.trim();
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('jwtToken');
+      String? token = prefs.getString('token');
 
       if (token != null) {
         try {
@@ -67,24 +68,30 @@ class _AdminPageState extends State<AdminPage> {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode(
-              {'username': newUsername, 'password': newPassword},
-            ),
+            body: jsonEncode({'username': username, 'password': password}),
           );
 
           if (response.statusCode == 201) {
-            _fetchUsers();
+            // User created successfully
+            _fetchUsers(); // Update the user list after creation
             _newUsernameController.clear();
             _newPasswordController.clear();
-            context.pop();
+            Navigator.of(context).pop(); // Close the dialog
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('User created successfully')),
+            );
           } else {
+            // Handle error
             final error = jsonDecode(response.body)['message'];
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(error)),
             );
           }
         } catch (error) {
-          print('Error creating user: $error');
+          // Handle network or other errors
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('An error occurred: $error')),
+          );
         }
       }
     }
@@ -92,7 +99,7 @@ class _AdminPageState extends State<AdminPage> {
 
   Future<void> _updateUserRole(String userId, String newRole) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('jwtToken');
+    String? token = prefs.getString('token');
 
     if (token != null) {
       try {
@@ -106,33 +113,30 @@ class _AdminPageState extends State<AdminPage> {
         );
 
         if (response.statusCode == 200) {
-          _fetchUsers();
-          // Update user role in local storage after successful update
-          // Get the user data for the updated user (you might need to fetch the user data again)
-          final updatedUserData = _users.firstWhere(
-            (user) => user['_id'] == userId,
-            orElse: () => {}, // Handle the case where the user is not found
+          // User role updated successfully
+          _fetchUsers(); // Refresh the user list
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('User role updated successfully')),
           );
-          if (updatedUserData != null) {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setString(
-                'userRole', updatedUserData['role']); // Update
-          }
         } else {
+          // Handle error
           final error = jsonDecode(response.body)['message'];
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(error)),
           );
         }
       } catch (error) {
-        print('Error updating user role: $error');
+        // Handle network or other errors
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An error occurred: $error')),
+        );
       }
     }
   }
 
   Future<void> _deleteUser(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('jwtToken');
+    String? token = prefs.getString('token');
 
     if (token != null) {
       try {
@@ -145,15 +149,23 @@ class _AdminPageState extends State<AdminPage> {
         );
 
         if (response.statusCode == 200) {
-          _fetchUsers();
+          // User deleted successfully
+          _fetchUsers(); // Refresh the user list
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('User deleted successfully')),
+          );
         } else {
+          // Handle error
           final error = jsonDecode(response.body)['message'];
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(error)),
           );
         }
       } catch (error) {
-        print('Error deleting user: $error');
+        // Handle network or other errors
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An error occurred: $error')),
+        );
       }
     }
   }
@@ -174,7 +186,6 @@ class _AdminPageState extends State<AdminPage> {
           const SizedBox(height: 10),
           Expanded(
             child: ListView.separated(
-              // Use ListView.separated for dividers
               itemCount: _users.length,
               itemBuilder: (context, index) {
                 final user = _users[index];
@@ -189,7 +200,6 @@ class _AdminPageState extends State<AdminPage> {
                       IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          // Implement delete user functionality here
                           _deleteUser(user['_id']);
                         },
                       ),
@@ -198,7 +208,6 @@ class _AdminPageState extends State<AdminPage> {
                             ? Icons.person
                             : Icons.admin_panel_settings),
                         onPressed: () {
-                          // Implement promote/demote user functionality here
                           _updateUserRole(user['_id'],
                               user['role'] == 'admin' ? 'user' : 'admin');
                         },
