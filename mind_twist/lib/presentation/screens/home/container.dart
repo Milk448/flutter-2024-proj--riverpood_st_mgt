@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mind_twist/presentation/screens/home/home_screen.dart';
 import 'package:mind_twist/presentation/screens/teaser/teaser_screen.dart';
-import 'package:mind_twist/presentation/screens/teaser/analytics_screen.dart';
 import 'package:mind_twist/presentation/screens/profile/profile.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,7 +18,6 @@ class _MainContainerState extends State<MainContainer> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const TeaserScreen(),
-    const AnalyticsScreen(),
     const ProfilePage(),
   ];
 
@@ -42,10 +40,6 @@ class _MainContainerState extends State<MainContainer> {
           BottomNavigationBarItem(
             icon: Icon(Icons.question_mark_rounded),
             label: 'Teasers',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.analytics_rounded),
-            label: 'Analytics',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

@@ -1,6 +1,6 @@
-// server\controllers\authController.js
 const User = require("../models/User");
-const jwt = require("jsonwebtoken"); // Import jsonwebtoken
+const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
 
 const signup = async (req, res) => {
   try {
@@ -51,11 +51,26 @@ const signin = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: req.user.userId }, // Find the user based on their user ID
-      { username, password }, // Update the username and password
-      { new: true } // Return the updated user document
-    );
+    let updatedUser;
+
+    if (password) {
+      // Hash the new password if provided
+      const salt = await bcryptjs.genSalt(10);
+      const hashedPassword = await bcryptjs.hash(password, salt);
+      updatedUser = await User.findOneAndUpdate(
+        { _id: req.user.userId },
+        { username, password: hashedPassword },
+        { new: true }
+      );
+    } else {
+      // If no new password is provided, only update the username
+      updatedUser = await User.findOneAndUpdate(
+        { _id: req.user.userId },
+        { username },
+        { new: true }
+      );
+    }
+
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mind_twist/presentation/screens/admin/admin.dart';
 import 'package:mind_twist/presentation/screens/home/container.dart';
-import 'package:mind_twist/presentation/screens/teaser/analytics_screen.dart';
 import 'package:mind_twist/presentation/screens/welcome/landing_page.dart';
 import 'package:mind_twist/presentation/screens/home/home_screen.dart';
 import 'package:mind_twist/presentation/screens/profile/profile.dart';
@@ -64,10 +63,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/home_screen',
         builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: '/analytics',
-        builder: (context, state) => const AnalyticsScreen(),
       ),
       GoRoute(
         path: '/teaser',

@@ -32,7 +32,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
       try {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        String? token = prefs.getString('jwtToken');
+        String? token = prefs.getString('token');
 
         if (token != null) {
           final response = await http.put(
@@ -50,7 +50,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             // Update successful
             // Update the user data in the local app for immediate effect
             prefs.setString('username', newUsername); // Update stored username
-            // (You can also update the password if you are storing it locally)
 
             // Clear the controllers and navigate to the ProfilePage
             _usernameController.clear();
@@ -68,6 +67,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           }
         } else {
           // Token not found, handle accordingly
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Token not found. Please sign in.')),
+          );
         }
       } catch (error) {
         // Handle network or other errors
@@ -81,7 +83,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Future<void> _deleteAccount() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('jwtToken');
+      String? token = prefs.getString('token');
 
       if (token != null) {
         final response = await http.delete(
@@ -97,8 +99,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           // Clear controllers (not necessary, but good practice)
           _usernameController.clear();
           _passwordController.clear();
-          prefs.remove('jwtToken');
+          prefs.remove('token');
+          prefs.remove('userId');
           prefs.remove('username'); // Remove stored username and password
+          prefs.remove('userRole'); // Remove user role
 
           // Navigate back to the login screen or landing page
           context.go('/');
@@ -114,6 +118,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         }
       } else {
         // Token not found, handle accordingly
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Token not found. Please sign in.')),
+        );
       }
     } catch (error) {
       // Handle network or other errors

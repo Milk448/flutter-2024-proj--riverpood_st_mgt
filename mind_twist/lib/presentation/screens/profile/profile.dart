@@ -40,9 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
           context.go('/teaser'); // Navigate to TeasersScreen
           break;
         case 2:
-          context.go('/analytics'); // Navigate to AnalyticsScreen
-          break;
-        case 3:
           // Navigate to ProfilePage (current screen)
           break;
         default:
